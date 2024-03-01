@@ -1,13 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { QueryClient } from "react-query";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+export const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL,
+});
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider>
+      <PersistGate>
+        {/* <BrowserRouter> */}
+          <App />
+        {/* </BrowserRouter> */}
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 
